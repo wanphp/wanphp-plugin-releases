@@ -1,6 +1,6 @@
 <?php
 
-namespace Wanphp\Plugins\Releases\Application;
+namespace Wanphp\Plugins\Releases\Application\Manage;
 
 use Exception;
 use Parsedown;
@@ -10,6 +10,12 @@ use Wanphp\Libray\Slim\Action;
 use Wanphp\Plugins\Releases\Domain\AuthorizationHeaderInterface;
 use Wanphp\Plugins\Releases\Domain\ReleasesInterface;
 
+/**
+ * Class ReleasesApi
+ * @title 发布版本
+ * @route /admin/releases
+ * @package Wanphp\Plugins\Releases\Application\Manage
+ */
 class ReleasesApi extends Action
 {
   private ReleasesInterface $releases;
