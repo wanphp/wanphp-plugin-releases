@@ -1,10 +1,11 @@
 {
-  "name": "wanphp/components-category",
-  "type": "wanphp-component",
-  "description": "分类、标签组件，供其它插件使用",
+  "name": "wanphp/plugins-releases",
+  "type": "wanphp-plugin",
+  "description": "系统版本发布接收插件",
   "keywords": [
     "wanphp",
-    "categorys"
+    "plugin",
+    "releases"
   ],
   "homepage": "https://www.wanphp.com",
   "license": "MIT",
@@ -15,23 +16,22 @@
     }
   ],
   "require": {
-    "wanphp/installers": "^1.0",
+    "wanphp/installers": "^1.0.0",
     "wanphp/libray-slim": "^1.0.0",
-    "wanphp/libray-mysql": "^1.1.0"
-  },
-  "require-dev": {
-    "zircote/swagger-php": "^3.1"
+    "wanphp/libray-mysql": "^1.1.0",
+    "erusev/parsedown": "^1.7.4",
+    "ext-json": "*"
   },
   "autoload": {
     "psr-4": {
-      "Wanphp\\Components\\Category\\": "/src"
+      "Wanphp\\Plugins\\Releases\\": "/src"
     }
   },
-  "repositories": {
-    "packagist": {
-      "type": "composer",
-      "url": "https://mirrors.aliyun.com/composer/",
-      "canonical": false
+  "config": {
+    "process-timeout": 0,
+    "sort-packages": true,
+    "allow-plugins": {
+      "wanphp/installers": true
     }
   }
 }

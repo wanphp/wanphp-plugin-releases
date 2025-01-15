@@ -1,10 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<div id="releaseRecords" class="card">
+  <div class="card-header">
+    <h3 class="card-title">{{title}}</h3>
+  </div>
+  <div class="card-body">
+    <div class="alert alert-success" role="alert">
+      <h4 class="alert-heading">版本发布接收地址</h4>
+      <p>{{webhook_receiver}}</p>
+      <hr>
+      <p class="mb-0">AuthorizationHeaderToken：{{token}}</p>
+    </div>
+    <table id="releasesData" class="table table-sm table-bordered table-hover"></table>
+  </div>
+  <!-- /.card-body -->
+</div>
+<!-- /.card -->
+<script type="text/javascript">
+  $(function () {
+    let releasesDataTables = $('#releaseRecords #releasesData').DataTable({
+      ajax: `{{basePath}}/admin/releases`,
+      serverSide: false,
+      rowId: 'id',
+      columns: [
+        {
+          "class": "details-control text-center",
+          "data": null,
+          "defaultContent": ''
+        },
+        {
+          title: '发布标题', data: "name", render: function (data, type, row) {
+            return data + '<span class="badge ' + (row.prerelease ? 'text-bg-success' : 'text-bg-secondary') + '">' + (row.prerelease ? '正式' : '预发布') + '</span>';
+          }
+        },
+        {title: '版本标记', data: "tag_name", defaultContent: ''},
+        {
+          title: '发布时间',
+          data: "releasesTime", render: function (data) {
+            return formatTimestamp(new Date(parseInt(data) * 1000));
+          }
+        }
+      ]
+    });
+    releasesDataTables.on('click', 'td.dt-control', function (e) {
+      let row = releasesDataTables.row(e.target.closest('tr'));
+      if (row.child.isShown()) row.child.hide();
+      else row.child(row.data().body).show();
+    });
+  });
+</script>

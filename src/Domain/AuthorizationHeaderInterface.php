@@ -2,7 +2,9 @@
 
 namespace Wanphp\Plugins\Releases\Domain;
 
-interface AuthorizationHeaderInterface
-{
+use Wanphp\Libray\Mysql\BaseInterface;
 
+interface AuthorizationHeaderInterface extends BaseInterface
+{
+  const TABLE_NAME = "authorization_header";
 }

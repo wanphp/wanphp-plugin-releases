@@ -2,8 +2,12 @@
 
 namespace Wanphp\Plugins\Releases\Entities;
 
+use Wanphp\Libray\Mysql\EntityTrait;
+
 class ReleasesEntity implements \JsonSerializable
 {
+  use EntityTrait;
+
   /**
    * @DBType({"key":"PRI","type":"smallint(6) NOT NULL AUTO_INCREMENT"})
    * @var integer|null
@@ -11,23 +15,29 @@ class ReleasesEntity implements \JsonSerializable
    */
   private ?int $id;
   /**
-   * @DBType({"key":"UNI","type":"varchar(200) NOT NULL DEFAULT ''"})
+   * @DBType({"type":"varchar(20) NOT NULL DEFAULT ''"})
+   * @var string
+   * @OA\Property(description="标签名称，版本标记")
+   */
+  private string $tag_name;
+  /**
+   * @DBType({"key":"UNI","type":"varchar(30) NOT NULL DEFAULT ''"})
    * @var string
    * @OA\Property(description="发布标题")
    */
-  private string $title;
+  private string $name;
   /**
-   * @DBType({"type":"varchar(1000) NOT NULL DEFAULT ''"})
+   * @DBType({"type":"varchar(5000) NOT NULL DEFAULT ''"})
    * @var string
    * @OA\Property(description="发布说明")
    */
-  private string $content;
+  private string $body;
   /**
-   * @DBType({"type":"varchar(10) NOT NULL DEFAULT ''"})
-   * @var string
-   * @OA\Property(description="版本标记")
+   * @DBType({"type":"char(1) NOT NULL DEFAULT ''"})
+   * @var integer
+   * @OA\Property(description="预发布")
    */
-  private string $tag;
+  private int $prerelease;
   /**
    * @DBType({"type":"char(10) NOT NULL DEFAULT ''"})
    * @var integer
@@ -35,38 +45,4 @@ class ReleasesEntity implements \JsonSerializable
    */
   private int $releasesTime;
 
-  /**
-   * 初始化实体
-   * @param array $array
-   */
-  public function __construct(array $array)
-  {
-    foreach ($array as $key => $value) {
-      if (property_exists($this, $key)) $this->{$key} = $value;
-    }
-  }
-
-  /**
-   * @param $name
-   * @param null $arguments
-   * @return mixed|null
-   */
-  public function __call($name, $arguments = null)
-  {
-    $action = substr($name, 0, 3);
-    $property = substr($name, 3);
-    if ($action == 'set' && property_exists($this, $property)) {
-      $this->{$property} = $arguments;
-      return $arguments;
-    } elseif ($action == 'get' && property_exists($this, $property)) {
-      return $this->{$property};
-    } else {
-      return null;
-    }
-  }
-
-  public function jsonSerialize(): array
-  {
-    return get_object_vars($this);
-  }
 }
