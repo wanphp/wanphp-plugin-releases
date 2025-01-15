@@ -28,9 +28,8 @@ class ReleasesApi extends Action
   public function __construct(ReleasesInterface $releases, AuthorizationHeaderInterface $authorizationHeader)
   {
     $this->releases = $releases;
-    try {
-      $this->token = $authorizationHeader->get('token');
-    } catch (\Exception $e) {
+    $this->token = $authorizationHeader->get('token') ?: '';
+    if (empty($this->token)) {
       $this->token = $this->createToken();
       $authorizationHeader->insert(['token' => $this->token]);
     }

@@ -3,12 +3,14 @@
     <h3 class="card-title">{{title}}</h3>
   </div>
   <div class="card-body">
+    {% if Role<0 %}
     <div class="alert alert-success" role="alert">
-      <h4 class="alert-heading">版本发布接收地址</h4>
+      <h4 class="alert-heading">版本发布接收地址(配置到gitea的Web 钩子)</h4>
       <p>{{webhook_receiver}}</p>
       <hr>
-      <p class="mb-0">AuthorizationHeaderToken：{{token}}</p>
+      <p class="mb-0">AuthorizationHeaderToken：Bearer {{token}}</p>
     </div>
+    {% endif %}
     <table id="releasesData" class="table table-sm table-bordered table-hover"></table>
   </div>
   <!-- /.card-body -->
@@ -22,13 +24,13 @@
       rowId: 'id',
       columns: [
         {
-          "class": "details-control text-center",
-          "data": null,
-          "defaultContent": ''
+          className: 'dt-control',
+          data: null,
+          defaultContent: ''
         },
         {
           title: '发布标题', data: "name", render: function (data, type, row) {
-            return data + '<span class="badge ' + (row.prerelease ? 'text-bg-success' : 'text-bg-secondary') + '">' + (row.prerelease ? '正式' : '预发布') + '</span>';
+            return data + '<span class="badge ' + (row.prerelease ? 'text-bg-secondary' : 'text-bg-success') + '">' + (row.prerelease ? '预发布' : '正式') + '</span>';
           }
         },
         {title: '版本标记', data: "tag_name", defaultContent: ''},
